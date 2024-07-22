@@ -1,0 +1,22 @@
+# Load necessary library
+library(ggplot2)
+library(tidyr)
+
+# Create the dataset
+data <- data.frame(
+  Product = c('A', 'B', 'C', 'D', 'E'),
+  Before_Campaign = c(200, 300, 400, 500, 600),
+  After_Campaign = c(250, 350, 450, 550, 650)
+)
+
+# Reshape the data for ggplot
+data_long <- pivot_longer(data, cols = c(Before_Campaign, After_Campaign), names_to = "Campaign_Status", values_to = "Value")
+
+# Create the area plot
+ggplot(data_long, aes(x = Product, y = Value, fill = Campaign_Status, group = Campaign_Status)) +
+  geom_area(position = "dodge", alpha = 0.5) +
+  geom_line(aes(color = Campaign_Status), size = 1) +
+  labs(title = "Product Value Before and After Campaign",
+       x = "Product",
+       y = "Value") +
+  theme_minimal()
